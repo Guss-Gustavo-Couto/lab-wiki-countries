@@ -1,25 +1,41 @@
-import logo from './logo.svg';
+import {useState, useEffect} from 'react';
+import axios from 'axios';
+// src/App.js
 import './App.css';
 
+//import Components
+import Header from './Components/Header';
+import CountryList from './Components/CountryList';
+import CountryDetails from './Components/CountryDetails';
+
+const apiURL = "https://ih-countries-api.herokuapp.com/countries";
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  
+  const [fetching, setFetching] = useState(true);
+  const [countries, setCountries] = useState([]);
+
+  const getFromApi = async () => {
+    try {
+      const response = await axios.get(apiURL)
+      setCountries(response.data)
+      setFetching(false)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getFromApi()
+  }, [])
+
+return (
+  <div className="App">
+    <Header/>
+   {App}
+   <CountryList/>
+  </div>
+)
 }
 
 export default App;
